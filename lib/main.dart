@@ -1,14 +1,13 @@
-import 'dart:developer';
-
-import 'package:triqui/pages/tied_page.dart';
-import 'package:triqui/pages/win_page.dart';
 import 'package:triqui/painted/board.dart';
 import 'package:triqui/painted/o.dart';
 import 'package:triqui/painted/x.dart';
+import 'package:triqui/provider/count.dart';
 import 'package:triqui/provider/provider.dart';
 import 'package:flutter/material.dart';
 import "package:provider/provider.dart";
 import 'package:flutter/services.dart';
+
+import 'game_controller/controllerCube.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,6 +26,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<TriquiProvider>(
             create: (context) => TriquiProvider(),
           ),
+          ChangeNotifierProvider<CountProvider>(
+              create: (context) => CountProvider()),
         ],
         builder: (context, _) {
           return MaterialApp(
@@ -54,11 +55,63 @@ class TriquiPage extends StatelessWidget {
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Padding(
-              padding: EdgeInsets.only(top: 100, bottom: 100),
-              child: Text(
-                "TRIQUI",
-                style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+            Padding(
+              padding: const EdgeInsets.only(top: 50, bottom: 45),
+              child: Column(
+                children: [
+                  const Text(
+                    "TRIQUI",
+                    style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        child: const Text("X",
+                            style: TextStyle(
+                                fontSize: 40, fontWeight: FontWeight.w500)),
+                      ),
+                      const SizedBox(width: 40),
+                      Container(
+                        alignment: Alignment.center,
+                        child: const Text(":",
+                            style: TextStyle(
+                                fontSize: 40, fontWeight: FontWeight.w400)),
+                      ),
+                      const SizedBox(width: 40),
+                      Container(
+                        alignment: Alignment.center,
+                        child: const Text("O",
+                            style: TextStyle(
+                                fontSize: 40, fontWeight: FontWeight.w500)),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          context.watch<CountProvider>().xWin.toString(),
+                          style: const TextStyle(
+                              fontSize: 40, fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                      const SizedBox(width: 90),
+                      Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                            context.watch<CountProvider>().oWin.toString(),
+                            style: const TextStyle(
+                                fontSize: 40, fontWeight: FontWeight.w400)),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
             SizedBox(
@@ -184,9 +237,9 @@ class TriquiPage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 100),
+              padding: const EdgeInsets.only(top: 70),
               child: Text(
-                "Turno del jugador ${watch.isPlayerOne ? "1" : "2"}"
+                "Turno del jugador ${watch.isPlayerOne ? "O" : "X"}"
                     .toUpperCase(),
                 style:
                     const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
@@ -195,115 +248,18 @@ class TriquiPage extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class Cube extends StatelessWidget {
-  final CustomPainter? painter;
-  final int cube;
-  const Cube({Key? key, this.painter, required this.cube}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    TriquiProvider watch = context.watch<TriquiProvider>();
-    TriquiProvider read = context.read<TriquiProvider>();
-    return GestureDetector(
-      child: SizedBox(
-        width: 100,
-        height: 100,
-        child: CustomPaint(
-          painter: painter,
-        ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.black,
+        onPressed: () {
+          aux = 0;
+          movements = [2, 2, 2, 2, 2, 2, 2, 2, 2];
+          context.read<CountProvider>().setOWin(win: 0);
+          context.read<CountProvider>().setXWin(win: 0);
+          read.resetGame(resetGame: true);
+        },
+        tooltip: 'Increment Counter',
+        child: const Icon(Icons.refresh),
       ),
-      onTap: () {
-        read.setPlayer(value1: watch.isPlayerOne ? false : true);
-        aux++;
-        switch (cube) {
-          case 1:
-            read.setCubeOnePinted(cube1: true);
-            break;
-          case 2:
-            read.setCubeTwoPinted(cube2: true);
-            break;
-          case 3:
-            read.setCubeThreePinted(cube3: true);
-            break;
-          case 4:
-            read.setCubeFourPinted(cube4: true);
-            break;
-          case 5:
-            read.setCubeFivePinted(cube5: true);
-            break;
-          case 6:
-            read.setCubeSixPinted(cube6: true);
-            break;
-          case 7:
-            read.setCubeSevenPinted(cube7: true);
-            break;
-          case 8:
-            read.setCubeEightPinted(cube8: true);
-            break;
-          case 9:
-            read.setCubeNinePinted(cube9: true);
-            break;
-        }
-        movements[cube - 1] = aux % 2 == 0 ? 0 : 1;
-
-        endGame(context, watch.isPlayerOne, 0, 1, 2)
-            ? read.resetGame(resetGame: true)
-            : null;
-        endGame(context, watch.isPlayerOne, 0, 3, 6)
-            ? read.resetGame(resetGame: true)
-            : null;
-        endGame(context, watch.isPlayerOne, 0, 4, 8)
-            ? read.resetGame(resetGame: true)
-            : null;
-        endGame(context, watch.isPlayerOne, 1, 4, 7)
-            ? read.resetGame(resetGame: true)
-            : null;
-        endGame(context, watch.isPlayerOne, 2, 5, 8)
-            ? read.resetGame(resetGame: true)
-            : null;
-        endGame(context, watch.isPlayerOne, 3, 4, 5)
-            ? read.resetGame(resetGame: true)
-            : null;
-        endGame(context, watch.isPlayerOne, 6, 7, 8)
-            ? read.resetGame(resetGame: true)
-            : null;
-        endGame(context, watch.isPlayerOne, 6, 4, 2)
-            ? read.resetGame(resetGame: true)
-            : null;
-      },
     );
-  }
-}
-
-bool endGame(context, bool win, [index1, index2, index3]) {
-  if ((movements[index1] == 0 &&
-          movements[index2] == 0 &&
-          movements[index3] == 0) ||
-      (movements[index1] == 1 &&
-          movements[index2] == 1 &&
-          movements[index3] == 1)) {
-    // ? log("Win")
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => WinPage(win: win)),
-    );
-    movements = [2, 2, 2, 2, 2, 2, 2, 2, 2];
-    aux = 0;
-    return true;
-  } else if (aux > 8) {
-    // ? log("Tie")
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const TiePage()),
-    );
-    movements = [2, 2, 2, 2, 2, 2, 2, 2, 2];
-    aux = 0;
-    return true;
-  } else {
-    return false;
   }
 }
