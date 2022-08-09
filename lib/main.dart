@@ -1,13 +1,11 @@
-import 'package:triqui/painted/board.dart';
-import 'package:triqui/painted/o.dart';
-import 'package:triqui/painted/x.dart';
 import 'package:triqui/provider/count.dart';
 import 'package:triqui/provider/provider.dart';
 import 'package:flutter/material.dart';
 import "package:provider/provider.dart";
 import 'package:flutter/services.dart';
+import 'package:triqui/view/marker.dart';
 
-import 'game_controller/controllerCube.dart';
+import 'game_controller/controllerDraw.dart';
 
 void main() {
   runApp(const MyApp());
@@ -66,26 +64,20 @@ class TriquiPage extends StatelessWidget {
                   const SizedBox(height: 30),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        alignment: Alignment.center,
-                        child: const Text("X",
-                            style: TextStyle(
-                                fontSize: 40, fontWeight: FontWeight.w500)),
+                    children: const [
+                      Marker(
+                        text: "X",
+                        fontWeight: FontWeight.w500,
                       ),
-                      const SizedBox(width: 40),
-                      Container(
-                        alignment: Alignment.center,
-                        child: const Text(":",
-                            style: TextStyle(
-                                fontSize: 40, fontWeight: FontWeight.w400)),
+                      SizedBox(width: 40),
+                      Marker(
+                        text: ":",
+                        fontWeight: FontWeight.w400,
                       ),
-                      const SizedBox(width: 40),
-                      Container(
-                        alignment: Alignment.center,
-                        child: const Text("O",
-                            style: TextStyle(
-                                fontSize: 40, fontWeight: FontWeight.w500)),
+                      SizedBox(width: 40),
+                      Marker(
+                        text: "O",
+                        fontWeight: FontWeight.w500,
                       ),
                     ],
                   ),
@@ -121,115 +113,58 @@ class TriquiPage extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Stack(
-                        children: [
-                          watch.isCubeOnePinted
-                              ? movements.elementAt(0) == 0
-                                  ? XContainer(painter: XPainter())
-                                  : OContainer(painter: OPainter())
-                              : const CustomPaint(),
-                          Cube(
-                              painter: BoardPainter(cube: "OneTwoSevenEight"),
-                              cube: 1),
-                        ],
+                      isXorO(
+                        cubePinted: watch.isCubeOnePinted,
+                        nCube: 0,
+                        nameCube: 'OneTwoSevenEight',
                       ),
-                      Stack(
-                        children: [
-                          watch.isCubeTwoPinted
-                              ? movements.elementAt(1) == 0
-                                  ? XContainer(painter: XPainter())
-                                  : OContainer(painter: OPainter())
-                              : const CustomPaint(),
-                          Cube(
-                              painter: BoardPainter(cube: "OneTwoSevenEight"),
-                              cube: 2),
-                        ],
+                      isXorO(
+                        cubePinted: watch.isCubeTwoPinted,
+                        nCube: 1,
+                        nameCube: 'OneTwoSevenEight',
                       ),
-                      Stack(
-                        children: [
-                          watch.isCubeThreePinted
-                              ? movements.elementAt(2) == 0
-                                  ? XContainer(painter: XPainter())
-                                  : OContainer(painter: OPainter())
-                              : const CustomPaint(),
-                          Cube(
-                              painter: BoardPainter(cube: "ThreeNine"),
-                              cube: 3),
-                        ],
+                      isXorO(
+                        cubePinted: watch.isCubeThreePinted,
+                        nCube: 2,
+                        nameCube: 'ThreeNine',
                       ),
                     ],
                   ),
                   Row(
                     children: [
-                      Stack(
-                        children: [
-                          watch.isCubeFourPinted
-                              ? movements.elementAt(3) == 0
-                                  ? XContainer(painter: XPainter())
-                                  : OContainer(painter: OPainter())
-                              : const CustomPaint(),
-                          Cube(painter: BoardPainter(cube: "FourSix"), cube: 4),
-                        ],
+                      isXorO(
+                        cubePinted: watch.isCubeFourPinted,
+                        nCube: 3,
+                        nameCube: 'FourSix',
                       ),
-                      Stack(
-                        children: [
-                          watch.isCubeFivePinted
-                              ? movements.elementAt(4) == 0
-                                  ? XContainer(painter: XPainter())
-                                  : OContainer(painter: OPainter())
-                              : const CustomPaint(),
-                          Cube(painter: BoardPainter(cube: "Five"), cube: 5),
-                        ],
+                      isXorO(
+                        cubePinted: watch.isCubeFivePinted,
+                        nCube: 4,
+                        nameCube: 'Five',
                       ),
-                      Stack(
-                        children: [
-                          watch.isCubeSixPinted
-                              ? movements.elementAt(5) == 0
-                                  ? XContainer(painter: XPainter())
-                                  : OContainer(painter: OPainter())
-                              : const CustomPaint(),
-                          Cube(painter: BoardPainter(cube: "FourSix"), cube: 6),
-                        ],
+                      isXorO(
+                        cubePinted: watch.isCubeSixPinted,
+                        nCube: 5,
+                        nameCube: 'FourSix',
                       ),
                     ],
                   ),
                   Row(
                     children: [
-                      Stack(
-                        children: [
-                          watch.isCubeSevenPinted
-                              ? movements.elementAt(6) == 0
-                                  ? XContainer(painter: XPainter())
-                                  : OContainer(painter: OPainter())
-                              : const CustomPaint(),
-                          Cube(
-                              painter: BoardPainter(cube: "OneTwoSevenEight"),
-                              cube: 7),
-                        ],
+                      isXorO(
+                        cubePinted: watch.isCubeSevenPinted,
+                        nCube: 6,
+                        nameCube: 'OneTwoSevenEight',
                       ),
-                      Stack(
-                        children: [
-                          watch.isCubeEightPinted
-                              ? movements.elementAt(7) == 0
-                                  ? XContainer(painter: XPainter())
-                                  : OContainer(painter: OPainter())
-                              : const CustomPaint(),
-                          Cube(
-                              painter: BoardPainter(cube: "OneTwoSevenEight"),
-                              cube: 8),
-                        ],
+                      isXorO(
+                        cubePinted: watch.isCubeEightPinted,
+                        nCube: 7,
+                        nameCube: 'OneTwoSevenEight',
                       ),
-                      Stack(
-                        children: [
-                          watch.isCubeNinePinted
-                              ? movements.elementAt(8) == 0
-                                  ? XContainer(painter: XPainter())
-                                  : OContainer(painter: OPainter())
-                              : const CustomPaint(),
-                          Cube(
-                              painter: BoardPainter(cube: "ThreeNine"),
-                              cube: 9),
-                        ],
+                      isXorO(
+                        cubePinted: watch.isCubeNinePinted,
+                        nCube: 8,
+                        nameCube: 'ThreeNine',
                       ),
                     ],
                   ),
