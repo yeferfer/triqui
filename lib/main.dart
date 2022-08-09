@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:triqui/pages/tie_page.dart';
+import 'package:triqui/pages/tied_page.dart';
 import 'package:triqui/pages/win_page.dart';
 import 'package:triqui/painted/board.dart';
 import 'package:triqui/painted/o.dart';
