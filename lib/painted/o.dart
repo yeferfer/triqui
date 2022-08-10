@@ -22,9 +22,12 @@ class OContainer extends StatelessWidget {
 class OPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
+    var rect = Offset.zero & size;
     final paint = Paint()
-      ..color = Colors.black
-      ..strokeWidth = 5
+      ..shader = const LinearGradient(
+        colors: [Colors.blue, Colors.indigo],
+      ).createShader(rect)
+      ..strokeWidth = 10
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 

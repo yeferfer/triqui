@@ -8,7 +8,7 @@ class BoardPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..color = Colors.black
-      ..strokeWidth = 5
+      ..strokeWidth = 7
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 

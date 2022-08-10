@@ -1,7 +1,6 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:triqui/provider/validator.dart';
 
 import '../main.dart';
 import '../pages/tied_page.dart';
