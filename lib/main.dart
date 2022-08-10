@@ -102,19 +102,19 @@ class _TriquiPageState extends State<TriquiPage> with TickerProviderStateMixin {
                       Marker(
                         text: "X",
                         fontWeight: FontWeight.w500,
-                        color: Colors.red,
+                        color: [Colors.orange, Colors.red],
                       ),
                       SizedBox(width: 40),
                       Marker(
                         text: ":",
                         fontWeight: FontWeight.w400,
-                        color: Colors.black,
+                        color: [Colors.black, Colors.black],
                       ),
                       SizedBox(width: 40),
                       Marker(
                         text: "O",
                         fontWeight: FontWeight.w500,
-                        color: Colors.blue,
+                        color: [Colors.blue, Colors.indigo],
                       ),
                     ],
                   ),
@@ -125,13 +125,13 @@ class _TriquiPageState extends State<TriquiPage> with TickerProviderStateMixin {
                       Marker(
                         text: context.watch<CountProvider>().xWin.toString(),
                         fontWeight: FontWeight.w400,
-                        color: Colors.black,
+                        color: const [Colors.black, Colors.black],
                       ),
                       const SizedBox(width: 90),
                       Marker(
                         text: context.watch<CountProvider>().oWin.toString(),
                         fontWeight: FontWeight.w400,
-                        color: Colors.black,
+                        color: const [Colors.black, Colors.black],
                       ),
                     ],
                   ),
@@ -232,7 +232,17 @@ class _TriquiPageState extends State<TriquiPage> with TickerProviderStateMixin {
                   Text(
                     watch.isPlayerOne ? "O" : "X".toUpperCase(),
                     style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 40, color: watch.isPlayerOne ? Colors.blue : Colors.red),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 40,
+                      foreground: Paint()
+                        ..shader = LinearGradient(
+                          colors: watch.isPlayerOne
+                              ? [Colors.blue, Colors.indigo]
+                              : [Colors.orange, Colors.red],
+                        ).createShader(
+                          const Rect.fromLTWH(0, 150, 300, 200),
+                        ),
+                    ),
                   ),
                 ],
               ),
