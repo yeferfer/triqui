@@ -3,6 +3,7 @@ import 'package:triqui/provider/provider.dart';
 import 'package:flutter/material.dart';
 import "package:provider/provider.dart";
 import 'package:flutter/services.dart';
+import 'package:triqui/provider/validator.dart';
 import 'package:triqui/view/marker.dart';
 
 import 'game_controller/controllerDraw.dart';
@@ -25,7 +26,11 @@ class MyApp extends StatelessWidget {
             create: (context) => TriquiProvider(),
           ),
           ChangeNotifierProvider<CountProvider>(
-              create: (context) => CountProvider()),
+            create: (context) => CountProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => ValidatorProvider(),
+          ),
         ],
         builder: (context, _) {
           return MaterialApp(
@@ -48,6 +53,7 @@ class TriquiPage extends StatelessWidget {
   Widget build(BuildContext context) {
     TriquiProvider watch = context.watch<TriquiProvider>();
     TriquiProvider read = context.read<TriquiProvider>();
+    ValidatorProvider readValid = context.read<ValidatorProvider>();
     return Scaffold(
       body: Center(
         child: Column(
@@ -85,21 +91,14 @@ class TriquiPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        alignment: Alignment.center,
-                        child: Text(
-                          context.watch<CountProvider>().xWin.toString(),
-                          style: const TextStyle(
-                              fontSize: 40, fontWeight: FontWeight.w400),
-                        ),
+                      Marker(
+                        text: context.watch<CountProvider>().xWin.toString(),
+                        fontWeight: FontWeight.w400,
                       ),
                       const SizedBox(width: 90),
-                      Container(
-                        alignment: Alignment.center,
-                        child: Text(
-                            context.watch<CountProvider>().oWin.toString(),
-                            style: const TextStyle(
-                                fontSize: 40, fontWeight: FontWeight.w400)),
+                      Marker(
+                        text: context.watch<CountProvider>().oWin.toString(),
+                        fontWeight: FontWeight.w400,
                       ),
                     ],
                   ),
@@ -191,6 +190,7 @@ class TriquiPage extends StatelessWidget {
           context.read<CountProvider>().setOWin(win: 0);
           context.read<CountProvider>().setXWin(win: 0);
           read.resetGame(resetGame: true);
+          readValid.resetValidator(reset: true);
         },
         tooltip: 'Increment Counter',
         child: const Icon(Icons.refresh),

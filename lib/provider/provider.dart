@@ -13,6 +13,7 @@ class TriquiProvider extends ChangeNotifier {
   bool _isCubeNinePinted = false;
   bool _isResetGame = false;
 
+
   bool get isPlayerOne => _isPlayerOne;
 
   bool get isCubeOnePinted => _isCubeOnePinted;

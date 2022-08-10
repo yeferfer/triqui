@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../main.dart';
 import '../painted/board.dart';
@@ -26,8 +27,8 @@ class isXorO extends StatelessWidget {
       children: [
         cubePinted
             ? movements.elementAt(nCube) == 0
-            ? XContainer(painter: XPainter())
-            : OContainer(painter: OPainter())
+                ? XContainer(painter: XPainter())
+                : OContainer(painter: OPainter())
             : const CustomPaint(),
         Cube(painter: BoardPainter(cube: nameCube), cube: nCube + 1),
       ],
