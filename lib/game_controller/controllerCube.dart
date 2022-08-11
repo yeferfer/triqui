@@ -7,6 +7,7 @@ import 'package:triqui/provider/validator.dart';
 
 import '../main.dart';
 import '../provider/animation.dart';
+import '../provider/count.dart';
 import '../provider/provider.dart';
 import 'endGame.dart';
 
@@ -22,6 +23,8 @@ class Cube extends StatelessWidget {
     ValidatorProvider watchValid = context.watch<ValidatorProvider>();
     ValidatorProvider readValid = context.read<ValidatorProvider>();
     AnimationProvider readAnimation = context.read<AnimationProvider>();
+    CountProvider watchCounter = context.watch<CountProvider>();
+    CountProvider readCounter = context.read<CountProvider>();
     return GestureDetector(
       child: SizedBox(
         width: 100,
@@ -132,6 +135,9 @@ class Cube extends StatelessWidget {
             endGame(context, watch.isPlayerOne, 3, 4, 5) ||
             endGame(context, watch.isPlayerOne, 6, 7, 8) ||
             endGame(context, watch.isPlayerOne, 6, 4, 2)) {
+          watch.isPlayerOne
+              ? readCounter.setXWin(win: watchCounter.xWin + 1)
+              : readCounter.setOWin(win: watchCounter.oWin + 1);
           read.resetGame(resetGame: true);
           readValid.resetValidator(reset: true);
         }

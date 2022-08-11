@@ -1,11 +1,27 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
+import '../game_controller/transition_page.dart';
 import '../main.dart';
 
-class TiePage extends StatelessWidget {
+class TiePage extends StatefulWidget {
   const TiePage({Key? key}) : super(key: key);
+
+  @override
+  State<TiePage> createState() => _TiePageState();
+}
+
+class _TiePageState extends State<TiePage> {
+  @override
+  void initState() {
+    Future.delayed(const Duration(seconds: 1), () {
+      Navigator.pushReplacement(
+        context,
+        CustomPageRoute(child: const TriquiPage()),
+      );
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,17 +47,9 @@ class TiePage extends StatelessWidget {
                     color: Colors.white),
               ),
               const SizedBox(height: 20),
-              GestureDetector(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Lottie.asset("assets/lottie/tied.json"),
-                ),
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const TriquiPage()),
-                  );
-                },
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Lottie.asset("assets/lottie/tied.json"),
               ),
             ],
           ),

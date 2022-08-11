@@ -1,23 +1,39 @@
-import 'package:provider/provider.dart';
+import 'dart:async';
+
 import 'package:triqui/main.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:triqui/provider/count.dart';
 
-class WinPage extends StatelessWidget {
+import '../game_controller/transition_page.dart';
+
+class WinPage extends StatefulWidget {
   final bool win;
   const WinPage({Key? key, required this.win}) : super(key: key);
 
   @override
+  State<WinPage> createState() => _WinPageState();
+}
+
+class _WinPageState extends State<WinPage> {
+  @override
+  void initState() {
+    Future.delayed(const Duration(seconds: 1), () {
+      Navigator.pushReplacement(
+        context,
+        CustomPageRoute(child: const TriquiPage()),
+      );
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    CountProvider watch = context.watch<CountProvider>();
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: win
+          colors: widget.win
               ? [
                   const Color.fromRGBO(245, 183, 177, 1),
                   const Color.fromRGBO(236, 112, 99, 1),
@@ -46,7 +62,7 @@ class WinPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 18.0),
                 child: Text(
-                  win ? "X" : "O",
+                  widget.win ? "X" : "O",
                   style: const TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
@@ -62,24 +78,9 @@ class WinPage extends StatelessWidget {
                     color: Colors.white),
               ),
               const SizedBox(height: 20),
-              GestureDetector(
-                child: Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Lottie.asset("assets/lottie/win.json"),
-                ),
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const TriquiPage()),
-                  );
-                  win
-                      ? context
-                          .read<CountProvider>()
-                          .setXWin(win: watch.xWin + 1)
-                      : context
-                          .read<CountProvider>()
-                          .setOWin(win: watch.oWin + 1);
-                },
+              Padding(
+                padding: const EdgeInsets.all(15),
+                child: Lottie.asset("assets/lottie/win.json"),
               ),
             ],
           ),
