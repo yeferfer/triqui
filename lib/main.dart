@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import "package:provider/provider.dart";
 import 'package:flutter/services.dart';
 import 'package:triqui/provider/validator.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'generated/l10n.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,27 +22,35 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider<TriquiProvider>(
-            create: (context) => TriquiProvider(),
-          ),
-          ChangeNotifierProvider<CountProvider>(
-            create: (context) => CountProvider(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => ValidatorProvider(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => AnimationProvider(),
-          ),
-        ],
-        builder: (context, _) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'TRIQUI',
-            theme: ThemeData.light(),
-            home: const TriquiPage(),
-          );
-        });
+      providers: [
+        ChangeNotifierProvider<TriquiProvider>(
+          create: (context) => TriquiProvider(),
+        ),
+        ChangeNotifierProvider<CountProvider>(
+          create: (context) => CountProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ValidatorProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AnimationProvider(),
+        ),
+      ],
+      builder: (context, _) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'TRIQUI',
+          theme: ThemeData.light(),
+          home: const TriquiPage(),
+          localizationsDelegates:const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            S.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
+        );
+      },
+    );
   }
 }

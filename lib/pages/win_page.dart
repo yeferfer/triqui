@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:triqui/pages/triqui_page.dart';
 
 import '../game_controller/transition_page.dart';
+import '../generated/l10n.dart';
 
 class WinPage extends StatefulWidget {
   final bool win;
@@ -71,7 +72,7 @@ class _WinPageState extends State<WinPage> {
                 ),
               ),
               Text(
-                "Es el ganador".toUpperCase(),
+                S.of(context).theWinnerIs.toUpperCase(),
                 style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
