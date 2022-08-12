@@ -1,16 +1,6 @@
-# triqui
+# Triqui - Tres Lineas - Juego del Gato - Tic Tac Toe 
 
-A new Flutter project.
+This game is made only in Flutter
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![image](https://user-images.githubusercontent.com/48194337/184382182-65e2f09f-5bdb-41eb-a127-981546f8eabd.png)
+![image](https://user-images.githubusercontent.com/48194337/184382246-c9a39522-c6ef-4483-887e-13a9a4ff5275.png)
