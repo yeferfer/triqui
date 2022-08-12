@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:triqui/game_controller/transition_page.dart';
 
-import '../main.dart';
 import '../pages/tied_page.dart';
+import '../pages/triqui_page.dart';
 import '../pages/win_page.dart';
 
 bool endGame(context, bool win, [index1, index2, index3]) {
@@ -21,13 +21,12 @@ bool endGame(context, bool win, [index1, index2, index3]) {
     movements = [2, 2, 2, 2, 2, 2, 2, 2, 2];
     aux = 0;
     return true;
-  } else if (aux > 8) {
+  } else if (aux == 10) {
     Navigator.pushReplacement(
       context,
       CustomPageRoute(child: const TiePage()),
     );
     movements = [2, 2, 2, 2, 2, 2, 2, 2, 2];
-    aux = 0;
     return true;
   } else {
     return false;

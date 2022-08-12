@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:triqui/pages/triqui_page.dart';
 
 import '../game_controller/transition_page.dart';
-import '../main.dart';
 
 class TiePage extends StatefulWidget {
   const TiePage({Key? key}) : super(key: key);

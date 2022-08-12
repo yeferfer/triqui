@@ -1,4 +1,4 @@
-import '../main.dart';
+import '../pages/triqui_page.dart';
 
 bool validator(dynamic wv, dynamic rv, cube) {
   if (wv != 2) {

@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:triqui/game_controller/validator.dart';
 import 'package:triqui/provider/validator.dart';
 
-import '../main.dart';
+import '../pages/triqui_page.dart';
 import '../provider/animation.dart';
 import '../provider/count.dart';
 import '../provider/provider.dart';
@@ -25,6 +25,21 @@ class Cube extends StatelessWidget {
     AnimationProvider readAnimation = context.read<AnimationProvider>();
     CountProvider watchCounter = context.watch<CountProvider>();
     CountProvider readCounter = context.read<CountProvider>();
+
+    void onlyMove(int num, bool reset) {
+      watch.isPlayerOne
+          ? readCounter.setXWin(win: watchCounter.xWin + num)
+          : readCounter.setOWin(win: watchCounter.oWin + num);
+      if (reset) {
+        read.resetGame(resetGame: true);
+        readValid.resetValidator(reset: true);
+      }
+    }
+
+    bool finishGame(int move1, int move2, int move3) {
+      return endGame(context, watch.isPlayerOne, move1, move2, move3);
+    }
+
     return GestureDetector(
       child: SizedBox(
         width: 100,
@@ -127,19 +142,24 @@ class Cube extends StatelessWidget {
             readValid.setValidatorNine(validator: movements[cube - 1]);
             break;
         }
-        if (endGame(context, watch.isPlayerOne, 0, 1, 2) ||
-            endGame(context, watch.isPlayerOne, 0, 3, 6) ||
-            endGame(context, watch.isPlayerOne, 0, 4, 8) ||
-            endGame(context, watch.isPlayerOne, 1, 4, 7) ||
-            endGame(context, watch.isPlayerOne, 2, 5, 8) ||
-            endGame(context, watch.isPlayerOne, 3, 4, 5) ||
-            endGame(context, watch.isPlayerOne, 6, 7, 8) ||
-            endGame(context, watch.isPlayerOne, 6, 4, 2)) {
-          watch.isPlayerOne
-              ? readCounter.setXWin(win: watchCounter.xWin + 1)
-              : readCounter.setOWin(win: watchCounter.oWin + 1);
-          read.resetGame(resetGame: true);
-          readValid.resetValidator(reset: true);
+        if (finishGame(0, 1, 2) ||
+            finishGame(0, 3, 6) ||
+            finishGame(0, 4, 8) ||
+            finishGame(1, 4, 7) ||
+            finishGame(2, 5, 8) ||
+            finishGame(3, 4, 5) ||
+            finishGame(6, 7, 8) ||
+            finishGame(6, 4, 2)) {
+          onlyMove(1, true);
+        }
+        if (aux == 9) {
+          onlyMove(-1, false);
+          aux++;
+          if (finishGame(0, 4, 8) || finishGame(6, 4, 2)) {
+            movements = [2, 2, 2, 2, 2, 2, 2, 2, 2];
+            aux = 0;
+            onlyMove(1, true);
+          }
         }
       },
     );
