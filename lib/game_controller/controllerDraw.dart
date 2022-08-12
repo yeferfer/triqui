@@ -3,7 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../main.dart';
+import '../pages/triqui_page.dart';
 import '../painted/board.dart';
 import '../painted/o.dart';
 import '../painted/x.dart';
