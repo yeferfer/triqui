@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../game_controller/controllerDraw.dart';
+import '../generated/l10n.dart';
 import '../provider/animation.dart';
 import '../provider/count.dart';
 import '../provider/provider.dart';
 import '../provider/validator.dart';
 import '../view/marker.dart';
+
 
 List<int> movements = [2, 2, 2, 2, 2, 2, 2, 2, 2];
 int aux = 0;
@@ -52,9 +54,9 @@ class _TriquiPageState extends State<TriquiPage> with TickerProviderStateMixin {
               padding: const EdgeInsets.only(top: 50, bottom: 40),
               child: Column(
                 children: [
-                  const Text(
-                    "TRIQUI",
-                    style: TextStyle(fontSize: 45, fontWeight: FontWeight.bold),
+                   Text(
+                    S.of(context).simpleText.toUpperCase(),
+                    style: const TextStyle(fontSize: 45, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 30),
                   Row(
@@ -185,7 +187,7 @@ class _TriquiPageState extends State<TriquiPage> with TickerProviderStateMixin {
               child: Column(
                 children: [
                   Text(
-                    "Turno del jugador".toUpperCase(),
+                    S.of(context).playerIsTurn.toUpperCase(),
                     style: const TextStyle(
                         fontWeight: FontWeight.w500, fontSize: 20),
                   ),
@@ -222,7 +224,7 @@ class _TriquiPageState extends State<TriquiPage> with TickerProviderStateMixin {
           read.resetGame(resetGame: true);
           readValid.resetValidator(reset: true);
         },
-        tooltip: 'Reiniciar Juego',
+        tooltip: S.of(context).restartGame,
         child: const Icon(Icons.refresh),
       ),
     );
